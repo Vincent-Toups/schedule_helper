@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded",()=>{
                   if(!d.fixed_interval){
                       return `<td>${d.description}</td><td id="${d.code}_from"></td><td><input id="${d.code}" type="date" updateable></input></td><td id="${d.code}_to"></td><td>${d.window_description}</td>`;
                   } else {
-                      return `<td>${d.description}</td><td id="${d.code}_from"><td><span id="${d.code}" fixed_interval updateable>Period: </span></td><td id="${d.code}_to"></td><td>${d.window_description}</td>`;
+                      return `<td>${d.description}</td><td id="${d.code}_from"><td><span id="${d.code}" fixed_interval updateable> NA </span></td><td id="${d.code}_to"></td><td>${d.window_description}</td>`;
                   }
               });
         d3.selectAll("input").each(function(){
@@ -103,6 +103,8 @@ document.addEventListener("DOMContentLoaded",()=>{
                 console.log(id);
                 if(info.start_base_event === "" && info.end_base_event === ""){
                     console.log(`${id}: no parents`);
+                    d3.select(`#${id}_from`).html("NA");
+                    d3.select(`#${id}_to`).html("NA");
                     return false;
                 } else {
                     let parents_filled_in = true;
@@ -167,7 +169,9 @@ document.addEventListener("DOMContentLoaded",()=>{
                         if(parents_filled_in){
                             const start = input_date_shifted_days(info.start_base_event, info.start_offset);
                             const end = input_date_shifted_days(info.end_base_event, info.end_offset);
-                            e.html(`Period: ${format_date(start)} - ${format_date(end)}`)
+                            //e.html(`Period: ${format_date(start)} - ${format_date(end)}`)
+                            d3.select(`#${id}_from`).html(format_date(start));
+                            d3.select(`#${id}_to`).html(format_date(end));
                         }
                     }
                 })

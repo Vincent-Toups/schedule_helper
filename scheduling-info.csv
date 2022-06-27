@@ -1,8 +1,8 @@
 code,description,start_base_event,start_offset,end_base_event,end_offset,window_description,fixed_interval
 PRE,Pre-screening,,,,,Pre-screening Date,0
 EV,EV Date,PRE,0,PRE,21,Zero to twenty-one days after Pre-screening,0
-RUNIN,Run-In,EV,1,EV,14,One to fourteen days after EV Date,1
-BLVISIT,BL Visit,EV,18,EV,35,Eighteen to thirtyfive days after EV Date,0
+RUNIN,Run-In Period,EV,1,EV,14,One to fourteen days after EV Date,1
+BLVISIT,BL Visit,EV,18,EV,35,Eighteen to thirty-five days after EV Date,0
 PRICALL,PRI Call,BLVISIT,-3,BLVISIT,-1,Three to one days before BL Visit,0
 CALL6W,Six-week call,BLVISIT,29,BLVISIT,49,Twenty-nine to forty-nine days after BL Visit,0
 VISIT12W,Twelve-Week Visit,BLVISIT,77,BLVISIT,91,Seventy-seven to ninety-one days after BL Visit,0
