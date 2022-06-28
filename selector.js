@@ -24,6 +24,20 @@ const format_date = function(date_object){
 }
 
 let need_update = false;
+const na = d3e => {
+    d3e.classed("na", true);
+}
+const unna = d3e => {
+    d3e.classed("na",false);
+}
+
+const na_parent = d3e => {
+    d3.select(d3e.node().parentNode).classed("na",true);    
+}
+const unna_parent = d3e => {
+    d3.select(d3e.node().parentNode).classed("na",false);    
+}
+
 
 document.addEventListener("DOMContentLoaded",()=>{
     const update_map = {};
@@ -67,7 +81,7 @@ document.addEventListener("DOMContentLoaded",()=>{
                   if(!d.fixed_interval){
                       return `<td>${d.description}</td><td id="${d.code}_from"></td><td><input id="${d.code}" type="date" updateable></input></td><td id="${d.code}_to"></td><td>${d.window_description}</td>`;
                   } else {
-                      return `<td>${d.description}</td><td id="${d.code}_from"><td><span id="${d.code}" fixed_interval updateable> NA </span></td><td id="${d.code}_to"></td><td>${d.window_description}</td>`;
+                      return `<td>${d.description}</td><td id="${d.code}_from"><td class="na"><span id="${d.code}" fixed_interval updateable> → </span></td><td id="${d.code}_to"></td><td>${d.window_description}</td>`;
                   }
               });
         d3.selectAll("input").each(function(){
@@ -103,8 +117,8 @@ document.addEventListener("DOMContentLoaded",()=>{
                 console.log(id);
                 if(info.start_base_event === "" && info.end_base_event === ""){
                     console.log(`${id}: no parents`);
-                    d3.select(`#${id}_from`).html("NA");
-                    d3.select(`#${id}_to`).html("NA");
+                    na(d3.select(`#${id}_from`).html("〜"));
+                    na(d3.select(`#${id}_to`).html("〜"));
                     return false;
                 } else {
                     let parents_filled_in = true;
@@ -129,8 +143,8 @@ document.addEventListener("DOMContentLoaded",()=>{
                         const end_txt = n.value;
                         n.min = start_txt;
                         n.max = end_txt;
-                        d3.select(`#${id}_from`).html(start_txt);
-                        d3.select(`#${id}_to`).html(end_txt);
+                        unna(d3.select(`#${id}_from`).html(start_txt))
+                        unna(d3.select(`#${id}_to`).html(end_txt))
                         if(cd && cd >= start && cd <= end){
                             n.valueAsDate = cd;
                         } else {
