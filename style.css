@@ -192,3 +192,9 @@ h2 {
   flex-basis: 100%;
   flex: 1;
 }
+
+.bordered {
+    border: solid black 0px;
+}
+
+table { border-collapse: collapse; }

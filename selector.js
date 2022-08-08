@@ -77,6 +77,7 @@ document.addEventListener("DOMContentLoaded",()=>{
               .data(data)
               .join("tr")
               .style("background", d => groupmap[d.code])
+              .attr("class", d=> !d.fixed_interval ? "bordered" : "unbordered")
               .html(d => {
                   if(!d.fixed_interval){
                       return `<td>${d.description}</td><td id="${d.code}_from"></td><td><input id="${d.code}" type="date" updateable></input></td><td id="${d.code}_to"></td><td>${d.window_description}</td>`;
