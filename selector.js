@@ -80,9 +80,9 @@ document.addEventListener("DOMContentLoaded",()=>{
               .attr("class", d=> !d.fixed_interval ? "bordered" : "unbordered")
               .html(d => {
                   if(!d.fixed_interval){
-                      return `<td>${d.description}</td><td id="${d.code}_from"></td><td><input id="${d.code}" type="date" updateable></input></td><td id="${d.code}_to"></td><td>${d.window_description}</td>`;
+                      return `<td>${d.description}</td><td id="${d.code}_from"></td><td><input id="${d.code}" type="date" updateable></input></td><td id="${d.code}_to"></td><td>${d.window_description}</td><input id="${d.code}_oop" type="date" updateable></input>`;
                   } else {
-                      return `<td>${d.description}</td><td id="${d.code}_from"><td class="na"><span id="${d.code}" fixed_interval updateable> → </span></td><td id="${d.code}_to"></td><td>${d.window_description}</td>`;
+                      return `<td>${d.description}</td><td id="${d.code}_from"><td class="na"><span id="${d.code}" fixed_interval updateable> → </span></td><td id="${d.code}_to"></td><td>${d.window_description}</td><td>〜</td>`;
                   }
               });
         d3.selectAll("input").each(function(){
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded",()=>{
                 el.value = params[el.id];
             }
         })
-        d3.select("#tbl").insert("tr",":first-child").html("<td>Event</td><td>Earliest</td><td>Date</td><td>Latest</td><td>Time Window</td>")
+        d3.select("#tbl").insert("tr",":first-child").html("<td>Event</td><td>Earliest</td><td>Date</td><td>Latest</td><td>Time Window</td><td>Protocol Deviation</td>")
         const input_has_value = id => d3.select(`#${id}`).property("value") !== "";
         const input_value_as_date = id => d3.select(`#${id}`).node().valueAsDate;
         const input_date_shifted_days = (id,days) => d3.select(`#${id}`).node().valueAsDate.addDays(days);
@@ -116,12 +116,12 @@ document.addEventListener("DOMContentLoaded",()=>{
                 const id = e.attr("id");
                 const info = by_code[id];
                 console.log(id);
-                if(info.start_base_event === "" && info.end_base_event === ""){
+                if(info && info.start_base_event === "" && info.end_base_event === ""){
                     console.log(`${id}: no parents`);
                     na(d3.select(`#${id}_from`).html("〜"));
                     na(d3.select(`#${id}_to`).html("〜"));
                     return false;
-                } else {
+                } else if (info) {
                     let parents_filled_in = true;
                     [info.start_base_event, info.end_base_event]
                         .forEach(event_name => {
